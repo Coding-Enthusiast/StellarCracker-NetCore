@@ -4,6 +4,12 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>StellarCracker_NetCore</RootNamespace>
+    <Version>0.9.0</Version>
+    <Description>A simple console app for verifying stellar private keys.</Description>
+    <Copyright>Copyright (c) 2018 Coding Enthusiast</Copyright>
+    <PackageLicenseUrl>https://github.com/Coding-Enthusiast/StellarCracker-NetCore/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Coding-Enthusiast/StellarCracker-NetCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Coding-Enthusiast/StellarCracker-NetCore</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
