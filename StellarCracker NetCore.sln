@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2016
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StellarCracker NetCore", "StellarCracker NetCore\StellarCracker NetCore.csproj", "{70EED481-10C8-4F79-B4FB-9B640DFCBF33}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70EED481-10C8-4F79-B4FB-9B640DFCBF33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70EED481-10C8-4F79-B4FB-9B640DFCBF33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70EED481-10C8-4F79-B4FB-9B640DFCBF33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70EED481-10C8-4F79-B4FB-9B640DFCBF33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19C1F313-3DD7-425F-BDF2-DC36BC805B17}
+	EndGlobalSection
+EndGlobal
