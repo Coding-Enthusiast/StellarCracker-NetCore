@@ -1,5 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// StellarCracker
+// Copyright (c) 2018 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
+
+#if !DEBUG
+using stellar_dotnet_sdk;
+#endif
+using System;
+#if DEBUG
+using System.Diagnostics;
+#endif
 
 namespace StellarCracker_NetCore
 {
@@ -7,87 +17,60 @@ namespace StellarCracker_NetCore
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("How many mistakes are in this key?");
-            int mode = 0;
+#pragma warning disable IDE0018 // Inline variable declaration
+            byte[] prv, pub;
+#pragma warning restore IDE0018 // Inline variable declaration
+#if DEBUG
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("You are running in debug mode, only a hard coded test key will run.");
+            Console.WriteLine("Compile in release mode for optimization and ability to enter your key.");
+            // correct key is     SBLVIQ4IQQG47BQVRUXXHJNTAQKRAXOURFZYSIGNJ4XLVFY4MPD552NS
+            string testPrivate = "SBLVIQ4IQQG4HBQVRUXXHJNTAKKXAXOURFZYSIGNJ4XLVFY4MPD552NS";
+            string testPublic = "GBYBAH2S2JQBDJL47RX6Y5BFQCJ3DMQG2Z6A6IBNGXYWCNK67LIS7L4K";
+
+            bool b = Base32.TryDecode(testPrivate, false, out prv, out _, out bool cs);
+            Debug.Assert(b);
+            Debug.Assert(!cs);
+            b = Base32.TryDecode(testPublic, true, out _, out pub, out cs);
+            Debug.Assert(b);
+            Debug.Assert(cs);
+#else
+            string input;
+            bool isPrvCSValid = false;
+            byte[] prv256;
             do
             {
-                Console.WriteLine("Enter 1 or 2");
-                string s = Console.ReadLine();
-                if (s == "1" || s == "2")
-                {
-                    mode = int.Parse(s);
-                }
-            } while (mode == 0);
+                Console.WriteLine("Enter Stellar private key (starts with S and is 56 characters long)");
+                input = Console.ReadLine();
+            } while (!Base32.TryDecode(input, false, out prv, out prv256, out isPrvCSValid));
 
-            string key = string.Empty;
+
             do
             {
-                Console.WriteLine("Enter your key (it should be 56 chars long and start with S):");
-                key = Console.ReadLine();
-            } while (key.Length != 56 || !key.StartsWith("S"));
+                Console.WriteLine("Enter Stellar public key (starts with G and is 56 characters long)");
+                input = Console.ReadLine();
+            } while (!Base32.TryDecode(input, true, out _, out pub, out bool cs) || !cs);
 
-            Console.WriteLine("Please wait...");
-
-            char[] keyArr = key.ToCharArray();
-
-            List<string> validKeys = new List<string>();
-
-            DateTime t = DateTime.Now;
-            int count = 0;
-            if (mode == 1)
+            if (isPrvCSValid)
             {
-                for (int i = 1; i < 56; i++)
+                Console.WriteLine("The given private key string has a valid checksum. Checking against the given public key.");
+                KeyPair keypair = KeyPair.FromSecretSeed(prv256);
+                if (((ReadOnlySpan<byte>)pub).SequenceEqual(keypair.PublicKey))
                 {
-                    for (int j = 0; j < 32; j++)
-                    {
-                        char[] temp = keyArr.ShallowReplace(i, CharSet[j]);
-                        string keyToCheck = new string(temp);
-                        if (Base32.IsValid(keyToCheck))
-                        {
-                            if (!validKeys.Contains(keyToCheck))
-                            {
-                                validKeys.Add(keyToCheck);
-                            }
-                        }
-                        count++;
-                    }
+                    Console.WriteLine("The given private key is without mistakes!");
+                    Console.ReadLine();
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("The given private key doesn't correspond to the given public key. Starting brute force.");
                 }
             }
-            else if (mode == 2)
-            {
-                for (int i1 = 1; i1 < 56; i1++)
-                {
-                    for (int i2 = 0; i2 < 56; i2++)
-                    {
-                        for (int j1 = 0; j1 < 32; j1++)
-                        {
-                            for (int j2 = 0; j2 < 32; j2++)
-                            {
-                                char[] temp = keyArr.ShallowReplace(i1, CharSet[j1], i2, CharSet[j2]);
-                                string keyToCheck = new string(temp);
-                                if (Base32.IsValid(keyToCheck))
-                                {
-                                    if (!validKeys.Contains(keyToCheck))
-                                    {
-                                        validKeys.Add(keyToCheck);
-                                    }
-                                }
-                                count++;
-                            }
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine("====================================================");
-            Console.WriteLine($"Checked {count} keys and it took {DateTime.Now.Subtract(t).TotalSeconds} seconds.");
-            Console.WriteLine("Here is a list of valid keys I found:");
-            validKeys.ForEach(x => Console.WriteLine(x));
+#endif
+            Worker.Start(prv, pub);
 
             Console.WriteLine("Press enter to exit!");
             Console.ReadLine();
         }
-
-        private const string CharSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
     }
 }
