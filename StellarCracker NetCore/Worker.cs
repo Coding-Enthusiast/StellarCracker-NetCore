@@ -168,7 +168,7 @@ namespace StellarCracker_NetCore
                                 if (pub256.SequenceEqual(keypair.PublicKey))
                                 {
                                     Console.WriteLine("Found the correct key:");
-                                    Console.WriteLine(Base32.Encode32(prv32));
+                                    Console.WriteLine(Base32.Encode32(ba32));
                                     timer.Stop();
                                     Console.WriteLine($"Elapsed time: {timer.Elapsed}");
                                     return;
