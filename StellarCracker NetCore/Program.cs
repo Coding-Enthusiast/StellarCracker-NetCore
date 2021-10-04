@@ -25,7 +25,7 @@ namespace StellarCracker_NetCore
             Console.WriteLine("You are running in debug mode, only a hard coded test key will run.");
             Console.WriteLine("Compile in release mode for optimization and ability to enter your key.");
             // correct key is     SBLVIQ4IQQG47BQVRUXXHJNTAQKRAXOURFZYSIGNJ4XLVFY4MPD552NS
-            string testPrivate = "SBLVIQ4IQQG4HBQVRUXXHJNTAKKXAXOURFZYSIGNJ4XLVFY4MPD552NS";
+            string testPrivate = "SBLVIQ4IQQG47BQVRUXXHJNTAQKAAXOURFZYSIGNJ4XLVFY4MPD552NG";
             string testPublic = "GBYBAH2S2JQBDJL47RX6Y5BFQCJ3DMQG2Z6A6IBNGXYWCNK67LIS7L4K";
 
             bool b = Base32.TryDecode(testPrivate, false, out prv, out _, out bool cs);

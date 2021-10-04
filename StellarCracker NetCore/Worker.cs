@@ -175,7 +175,7 @@ namespace StellarCracker_NetCore
                                 }
                             }
                         } while (MoveNextItems(items, missCount, 32));
-                    } while (MoveNextIndex(mi, missCount, 55));
+                    } while (MoveNextIndex(mi, missCount, 56));
 
                     Console.WriteLine($"Elapsed time: {timer.Elapsed}");
                     Console.WriteLine("====================================================");
